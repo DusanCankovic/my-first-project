@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    
+    <div class="wrapper">
+        <div class="header">
+            <div id="nav-lista">
+                <div class="elementi">
+                    <p><a href="index.html">POČETNA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="o-nama.html">O NAMA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="galerija.html">GALERIJA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kupovina.html">KUPOVINA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kontakt.html">KONTAKT</a></p>
+                </div>
+            </div>
+            <div id="dugmad">
+                <div id="pe"></div>
+            </div>
+            
+        </div>
+        <div class="content" id="dule">
+            <div id="treciIspis">
+                <p>Naša firma se nalazi u Beogradu, u opštini Zemun (naselje Altina), u ulici Radenka Miševića, broj 6.</p>
+                <p>Možete nas kontaktirati na broj telefona: 065/4676-828;</p>
+                <p>Ili preko e-mail adrese: dusan.cankovic@gmail.com</p>
+                <br><br>
+                <div id="karta">
+                    <div class="mapouter"><div class="gmap_canvas"><iframe width="700" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Radenka%20Mi%C5%A1evi%C4%87a%206%20Beograd&t=k&z=11&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.bitgeeks.net/embed-google-map/">bitgeeks.net</a></div><style>.mapouter{position:relative;text-align:right;height:500px;width:700px;}.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:700px;}</style></div>
+                <!-- Special 20% Discount for Elegant Themes Divi Page Builder https://www.embedgooglemap.net/divi-sale/ -->
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+                <button onclick="adminKorisnik()" id="deleteUser" class="dugmici2">Obriši korisnika</button>
+        </div>
+        <div class="footer"><p>Copyright © Dušan Čanković</p></div>
+    </div>
+    
+    <script>
+        
+        function ugao(){
+            if(localStorage != ""){
+                var localdata = JSON.parse(localStorage.getItem("userdata"));
+                var korIme = localdata.kor_ime;
+                console.log(korIme);
+
+                var pe = document.getElementById("pe");
+                pe.style["display"] = "inline-block";
+                pe.innerText = "Dobrodošli, "+korIme+"! ";
+
+                var dugmeIzadji = document.createElement("button");
+                dugmeIzadji.innerText = "Log out";
+                dugmeIzadji.classList.add("dugmici");
+                dugmeIzadji.onclick = izadji;
+                pe.appendChild(dugmeIzadji);
+
+                pokreniAdminDugme();
+            };
+        };
+    
+        ugao();
+
+        function pokreniAdminDugme(){
+            var localdata = JSON.parse(localStorage.getItem("userdata"));
+            var korLevel = localdata.kor_level;
+            console.log("Korisnicki level je "+ korLevel);
+            var deleteUser = document.getElementById("deleteUser");
+
+            if(korLevel === 1){
+                deleteUser.style["display"]="inline-block";
+            }
+            else{
+                deleteUser.style["display"]="none";
+            }
+        };
+
+
+        function adminKorisnik(){
+            var sidebar = document.getElementById("sidebar")
+            var divBrisanjeKorisnika = document.createElement("div");
+            var inputImeKorisnika = document.createElement("input");
+            var inputPrezimeKorisnika = document.createElement("input");
+            var dugmeObrisiUsera = document.createElement("button");
+            
+            divBrisanjeKorisnika.id = "divBrisanjeKorisnika";
+            inputImeKorisnika.id = "inputImeKorisnika";
+            inputImeKorisnika.classList.add("inputiZaDopunu");
+            inputImeKorisnika.placeholder = "Ime korisnika";
+            inputPrezimeKorisnika.id = "inputPrezimeKorisnika";
+            inputPrezimeKorisnika.classList.add("inputiZaDopunu");
+            inputPrezimeKorisnika.placeholder = "Prezime korisnika";
+
+            dugmeObrisiUsera.innerHTML = "Obriši";
+            dugmeObrisiUsera.classList.add("dugmici");
+            dugmeObrisiUsera.onclick = obrisiKorisnika;
+
+            sidebar.appendChild(divBrisanjeKorisnika);
+            divBrisanjeKorisnika.appendChild(inputImeKorisnika);
+            divBrisanjeKorisnika.appendChild(inputPrezimeKorisnika);
+            divBrisanjeKorisnika.appendChild(dugmeObrisiUsera);
+
+            var deleteUser = document.getElementById("deleteUser");
+            deleteUser.style["display"] = "none";
+            };
+
+        function obrisiKorisnika(){
+            var imeKorisnika = document.getElementById("inputImeKorisnika").value;
+            var prezimeKorisnika = document.getElementById("inputPrezimeKorisnika").value;
+
+                if(imeKorisnika == "" || prezimeKorisnika == ""){
+                    alert("Unesite ime i prezime korisnika!")
+                }
+                else{
+                    axios.post("http://localhost:3000/brisanjeKorisnika",
+                    {oznaka2: imeKorisnika, oznaka3: prezimeKorisnika}).then (function(response){
+                    console.log(response.data)
+                    });
+            
+                    alert("Korisnik je obrisan.");
+
+                    var divBrisanjeKorisnika = document.getElementById("divBrisanjeKorisnika");
+                    divBrisanjeKorisnika.style["display"] = "none"  
+                    var deleteUser = document.getElementById("deleteUser");
+                    deleteUser.style["display"] = "inline-block";
+                }
+            };
+
+        function izadji(){
+            localStorage.removeItem("userdata");
+            alert("Uspešno ste se izlogovali");
+
+            var pe = document.getElementById("pe");
+            pe.style["display"] = "none";
+        };    
+        
+    </script>
+</body>
+</html>

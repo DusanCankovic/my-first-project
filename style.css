@@ -1,0 +1,407 @@
+body {
+    margin: 0;
+    padding: 20px;
+    background-image: url('images/palete5.jpg');
+    background-repeat: repeat;
+    }
+
+.wrapper {
+    background-color: beige;
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-template-rows: 70px 204px 204px 204px 204px 70px;  
+    margin: 2px;
+    margin: 0 auto;
+    padding: 2px;
+    }
+.header	{
+    background-image: linear-gradient(to right, #637451, #acd58e);
+    grid-column-start: 1;
+    grid-column-end: 5;
+    margin: 2px;
+    border-radius: 1;
+    padding-top: 0px; 
+    }
+.content {
+    background-image: linear-gradient(to right, #b5cc9f, #d7daa9);
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 6;
+    margin: 2px;
+    overflow: auto;
+    }
+.sidebar {
+    background-image: linear-gradient(to bottom, #dcd5c4, #a7b88e);
+    grid-row-start: 2;
+    grid-row-end: 6;
+    margin: 2px;
+    }
+.footer {
+    background-image: linear-gradient(to right, #acd58e, #637451);
+    grid-column-start: 1;
+    grid-column-end: 5;
+    margin: 2px;
+    }
+#nav-lista {
+    float: left;
+    width: 75%;
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 0px; 
+    }
+
+.elementi {
+    display: inline-block;
+    width: 18%;
+    justify-content: space-evenly;
+    align-items: center;    
+    text-align: center;   
+    border-bottom: 6px solid transparent;
+}
+
+.elementi p a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none; 
+    color: bisque;
+    padding: 16%; 
+}
+
+.elementi p {
+    text-align: center;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.elementi:hover {
+    background-color: bisque;  
+    border-bottom: 6px solid  #b8d415;
+}
+
+.elementi p a:hover {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #7c9a5c;
+}
+.elementi p a:active {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #b8d415;
+}
+
+#dugmad {
+    float: left;
+    width: 25%;
+}
+#login-div {
+    margin: 0 auto;
+    margin-top: 200px;
+    width: 250px;
+    height: 150px;
+    background-color: aquamarine;
+    border: 3px solid blue;
+    text-align: center;     
+    padding: 20px; 
+    display: block;   
+    }
+#input1 {
+    margin: 5px;
+    margin-bottom: 3px;
+    margin-left: 20px;
+    width: 130px;
+    }
+#input2 {
+    margin: 5px;
+    margin-bottom: 3px;    
+    width: 130px;
+    }
+.dugmici {
+    border: none;
+    background-color: bisque;
+    font-family: Helvetica;
+    padding: 5px;
+    color:#637451;
+    border-radius: 3px;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.dugmici:hover{
+    background-color: lightgreen;
+}
+.dugmici:active{
+    background-color:#b8d415;
+}
+.dugmici2{
+    border: none;
+    background-color: #b5cc9f;
+    font-family: Helvetica;
+    padding: 5px;
+    color:#637451;
+    border-radius: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.dugmici2:hover{
+    background-color: lightgreen;
+}
+.dugmici2:active{
+    background-color:#b8d415;
+}
+
+#log{
+    margin: 5px;
+    margin-left: 20px;
+}
+#reg{
+    margin: 5px;
+}
+#out{
+    display: none;
+}
+#pe {
+    float: right;
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+#register-div {
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 200px;
+    height: 200px;
+    background-color: burlywood;
+    border: 2px solid #637451;
+    text-align: center;     
+    padding: 20px; 
+    display: block;   
+    }
+#input3 {
+    margin: 10px;
+}
+#input4 {
+    margin: 10px;
+    }
+#input5 {
+    margin: 10px;
+}
+#input6 {
+    margin: 10px;
+}
+#ulaz p{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-family: Helvetica;
+    color: #637451;
+    font-size: 20px;
+}
+#zaTablicu{
+    display: none;
+}
+#tablica {
+    border-collapse: collapse;    
+    margin: 20px;
+    
+}
+#tablica td{
+    border: solid 1px black;
+    height: 40px;
+    width: 140px;
+    background-color: #acba4e;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#tablica  td:hover {
+    background-color: burlywood;
+}
+#tablica  .poredak td {
+    background-color: rosybrown;
+    text-align: center;
+}
+.dugmeKupi {
+    height: 40px;
+    background-color: antiquewhite;  
+}
+.dugmeKupi:hover {
+    background-color: lightgreen;
+}
+.dugmeKupi:active {
+    background-color:green;
+}
+
+#sidebar {
+    padding: 10px;
+}
+#zaKupce {
+    display: none;
+}
+
+#zaPorucivanje {
+    display: none;
+}
+#naslovna {
+    border-collapse: collapse;
+    margin:5px;
+    margin-bottom: 0px;
+}
+
+#naslovna td{
+    border: solid 1px black;
+    height: 40px;
+    width: 100px;
+    background-color:lightskyblue;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#mala-tablica{
+    border-collapse: collapse;
+    margin: 5px;
+    margin-top: 0px;
+}
+
+#mala-tablica td{
+    border: solid 1px black;
+    height: 40px;
+    width: 100px;
+    background-color:lightgoldenrodyellow;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#zaPorucivanje{
+    background-color: bisque;
+    font-family: Helvetica;
+    padding: 20px;
+    color:#637451;
+    border-radius: 6px;
+    margin: 20px;
+}
+
+#divZaDopunu {
+    margin: 20px;
+    padding: 20px;
+    background-color: bisque;
+    border: solid 2px sandybrown;
+}
+
+#divZaBrisanje{
+    margin: 20px;
+    padding: 20px;
+    background-color:lightblue;
+    border: solid 2px blue;
+}
+.inputiZaDopunu {
+    margin: 10px;
+}
+
+#dugmeZaDopunu {
+    margin: 10px;
+}
+
+#inputZaBrisanje{
+    width: 80px;
+}
+#urediTab1 {
+    display: none;
+}
+
+#urediTab2 {
+    display: none;
+}
+
+.velicina{
+    height: 90%;
+    width: 100%;
+    opacity: 0.7;
+}
+.velicina:hover{
+    transition: 0.4s ease;
+    opacity: 1;
+}
+
+.wrapper {
+    height: auto;
+}
+
+.footer p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: bisque;
+    text-align: center;
+}
+
+#prviIspis {
+    padding: 20px;
+}
+
+#prviIspis p {
+    font-family: Helvetica;
+    color: #637451;
+    font-size: 20px;
+}
+
+#prva {
+    margin-left: 10%;
+}
+
+#drugiIspis {
+    padding: 20px;
+}
+
+#drugiIspis p {
+    font-family: Helvetica;
+    color: #637451;
+    font-size: 20px;
+}
+
+#druga {
+    margin-left: 7%;
+}
+
+#treca {
+    margin: 10%;
+}
+
+#treciIspis {
+    padding: 20px;
+}
+
+#treciIspis p {
+    font-family: Helvetica;
+    color: #637451;
+    font-size: 20px;
+}
+
+#karta {
+    margin-left: 12%;
+}
+#kolInput {
+    margin: 10px;
+    margin-left: 10px;
+    width: 40px;
+}
+#deleteUser {
+    display: none;
+}
+#divBrisanjeKorisnika {
+    margin: 20px;
+    padding: 20px;
+    background-color:lightblue;
+    border: solid 2px blue;
+}
+
+#kov{
+    display: inline-block;
+    width: 47%;
+    height: 47%;
+    margin: 10px;
+    border: green solid 1px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #d3d8b7;
+}
+
+#kov:hover {
+    background-color: #d7daa9;
+}
+
+#slikaId{
+    padding: 5px;
+}

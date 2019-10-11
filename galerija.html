@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <link href="style.css" rel="stylesheet" type="text/css">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        
+        <div class="wrapper">
+        <div class="header">    
+            <div id="nav-lista">
+                <div class="elementi">
+                    <p><a href="index.html">POČETNA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="o-nama.html">O NAMA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="galerija.html">GALERIJA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kupovina.html">KUPOVINA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kontakt.html">KONTAKT</a></p>
+                </div>
+            </div>
+            <div id="dugmad">
+                <div id="pe"></div>
+            </div>
+        </div>
+        <div class="content" id="dule"></div>
+        <div class="sidebar"></div>
+        <div class="footer"><p>Copyright © Dušan Čanković</p></div>
+    </div> 
+        
+        <script>
+
+        function uzmiSliku(){
+            axios.get("http://localhost:3000/slike")
+            .then((response)=> {
+                for(var i=0; i<response.data.slike.length; i++){
+
+                    var kov = document.createElement("div");
+                    kov.id = "kov";
+                    
+                    var imgTag = document.createElement("img");
+                    imgTag.classList.add("velicina");
+                    imgTag.id = "imgTag";
+                    imgTag.src = 'images/'+response.data.slike[i].art_slika;
+                    
+                    var slikaId = document.createElement("div");
+                    slikaId.innerHTML = "ID: "+response.data.slike[i].art_id;
+                    slikaId.id = slikaId;
+                    
+                    var slikaIme = document.createElement("div");
+                    slikaIme.innerHTML = "NAZIV: "+response.data.slike[i].art_naziv;
+                    slikaIme.id = slikaIme;
+
+                    var glavni = document.getElementById("dule");
+                    kov.appendChild(imgTag);
+                    kov.appendChild(slikaId);
+                    kov.appendChild(slikaIme);
+                    glavni.appendChild(kov);   
+                    console.log(response.data);
+                };
+            });
+        };
+
+        uzmiSliku();
+
+        function ugao(){
+            if(localStorage != ""){
+                var localdata = JSON.parse(localStorage.getItem("userdata"));
+                var korIme = localdata.kor_ime;
+                console.log(korIme);
+
+                var pe = document.getElementById("pe");
+                pe.style["display"] = "inline-block";
+                pe.innerText = "Dobrodošli, "+korIme+"! ";
+
+                var dugmeIzadji = document.createElement("button");
+                dugmeIzadji.innerText = "Log out";
+                dugmeIzadji.classList.add("dugmici");
+                dugmeIzadji.onclick = izadji;
+                pe.appendChild(dugmeIzadji);
+            }
+        }
+    
+        ugao();
+
+        function izadji(){
+            localStorage.removeItem("userdata");
+            alert("Uspešno ste se izlogovali");
+
+            var pe = document.getElementById("pe");
+            pe.style["display"] = "none";
+        }
+        </script>
+    </body>
+</html>

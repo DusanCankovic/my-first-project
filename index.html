@@ -1,0 +1,239 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div id="nav-lista">
+                <div class="elementi">
+                    <p><a href="index.html">POČETNA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="o-nama.html">O NAMA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="galerija.html">GALERIJA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kupovina.html">KUPOVINA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kontakt.html">KONTAKT</a></p>
+                </div>
+            </div>
+            <div id="dugmad">
+                <div id="inputi">
+                    <input id="input1" type="text" placeholder="korisnik">
+                    <input id="input2" type="password" placeholder="šifra">
+                    <button id="log" class="dugmici" onclick="uzmiPodatkeZaLogIn()">Log in</button>     
+                    <button id="reg" class="dugmici" onclick="registrujSe()">Register</button>
+                </div>
+                <div id="pe"></div>
+                <button id="out" class="dugmici" onclick="izadji()">Log out</button> 
+                <br>            
+            </div>
+        </div>
+        <div class="content" id="dule">
+            <div id="prviIspis">       
+                <p>Paleta predstavlja pomoćno industrijsko sredstvo u proizvodnji i skladištenju raznih proizvoda, zatim u transportu, manipulisanju i izlaganju određenih robnih proizvoda. Najčešći materijal za izradu paleta jeste drvna građa.</p>
+                <p>Postoji više vrsta drvenih paleta, od kojih su najpoznatije Euro palete, izrađene po standardu
+                koji propisuje evropska asocijacija za palete, a koje se odlikuje svojim kvalitetom i izdržljivošću.</p>   
+            
+                <div id="prva"><img src="images/palete4.jpg" alt slika1></div>
+
+                <p>Postavlja se pitanje - može li ovo industrijsko sredstvo da se iskoristi i u druge svrhe?</p>
+                    
+                <p>Mogu li palete da postanu omiljeni deo Vaše terase, dvorišta ili dnevne sobe, sa funkcijama o kojima uopšte niste ni razmišljali?</p>
+            </div>     
+        </div>
+        <div class="sidebar" id="side"></div>
+        <div class="footer"><p>Copyright © Dušan Čanković</p></div>
+    </div>
+    
+
+    <script>
+
+        function ugao(){
+            if(localStorage != ""){
+                var localdata = JSON.parse(localStorage.getItem("userdata"));
+                    var korIme = localdata.kor_ime;
+                    console.log(korIme);
+
+                    var inputi = document.getElementById("inputi");
+                    inputi.style["display"]="none";
+
+                    var pe = document.getElementById("pe");
+                    pe.style["display"] = "inline-block";
+                    pe.innerText = "Dobrodošli, "+korIme+"! ";
+
+                    var dugmeIzadji = document.createElement("button");
+                    dugmeIzadji.innerText = "Log out";
+                    dugmeIzadji.classList.add("dugmici");
+                    dugmeIzadji.onclick = izadji;
+                    pe.appendChild(dugmeIzadji);
+            }
+        }
+    
+        ugao();
+
+        var loggedInUser;
+
+        function uzmiPodatkeZaLogIn() {
+            var ime = document.getElementById("input1").value;
+            var sifra = document.getElementById("input2").value;
+            axios.post("http://localhost:3000/login",{
+                    username: ime, 
+                    password: sifra
+                }
+            )
+            .then((response)=> {
+                if(response.data.result == "OK"){
+                    localStorage.setItem("userdata", JSON.stringify(response.data.data));
+                    console.log(response.data);
+                    alert("Uspešno ste se ulogovali.");
+
+                    var inputi = document.getElementById("inputi");
+                    inputi.style["display"]="none";
+
+                    var localdata = JSON.parse(localStorage.getItem("userdata"));
+                    var korIme = localdata.kor_ime;
+                    console.log(korIme);
+
+                    var pe = document.getElementById("pe");
+                    pe.style["display"] = "inline-block";
+                    pe.innerText = "Dobrodošli, "+korIme+"!";
+                    var out = document.getElementById("out");
+                    out.style["display"] = "inline-block";
+                }
+                else{
+                    console.error("Login neuspesan");
+                    alert("Login neuspešan. Pokušajte ponovo");
+                    var input1 = document.getElementById("input1");
+                    var input2 = document.getElementById("input2");
+                    input1.value = "";
+                    input2.value = "";
+                }   
+            });
+        };
+
+        
+        function registrujSe() {
+            var glavni = document.getElementById("side");
+            var div2 = document.createElement("div");
+            div2.id = "register-div";
+            var input3 = document.createElement("input");
+            var input4 = document.createElement("input");
+            var input5 = document.createElement("input");
+            var input6 = document.createElement("input");
+            input3.type = "text";
+            input4.type = "text";
+            input5.type = "text";
+            input6.type = "password";
+            input3.placeholder = "ime";
+            input4.placeholder = "prezime";
+            input5.placeholder = "adresa";
+            input6.placeholder = "sifra";
+            input3.id = "input3";
+            input4.id = "input4";
+            input5.id = "input5"; 
+            input6.id = "input6";
+
+            div2.appendChild(input3);
+            div2.appendChild(input4);
+            div2.appendChild(input5);
+            div2.appendChild(input6);
+
+            var dugme2 = document.createElement("button");
+            dugme2.type= "submit";
+            dugme2.classList.add("dugmici");
+            dugme2.innerHTML = "submit";   
+            div2.appendChild(dugme2);
+            dugme2.onclick = dodajPodatkeZaRegister;
+
+            var dugme3 = document.createElement("button");
+            dugme3.classList.add("dugmici");
+            dugme3.innerHTML = "reset";
+            div2.appendChild(dugme3);
+            dugme3.onclick = resetujPodatkeZaRegister;
+
+            var dugme4 = document.createElement("button");
+            dugme4.classList.add("dugmici");
+            dugme4.innerHTML = "izađi";
+            div2.appendChild(dugme4);
+            dugme4.onclick = outRegister;
+
+            glavni.appendChild(div2); 
+
+            var reg= document.getElementById("reg");
+            reg.style["display"] = "none";
+        }
+
+        function dodajPodatkeZaRegister() {
+            var ime = document.getElementById("input3").value;
+            var prezime = document.getElementById("input4").value;
+            var adresa = document.getElementById("input5").value;
+            var sifra = document.getElementById("input6").value; 
+
+            if(ime == "" || prezime == "" || adresa == "" || sifra == "" ){
+                alert("Greška! Morate uneti sve podatke neophodne za registraciju");
+            }
+
+            else {
+            axios.post("http://localhost:3000/noviupit",
+            {username: ime, surname: prezime, address: adresa, password: sifra})
+            .then(function (response) {
+            console.log(response.data);
+            });
+            console.log(ime);
+            console.log(prezime);
+            console.log(adresa);
+            console.log(sifra);
+
+            var div2 = document.getElementById("register-div");
+            div2.style["display"] = "none";
+            alert("Uspešno ste se registrovali. Možete da se ulogujete!");
+        }
+        };
+
+        function resetujPodatkeZaRegister(){
+            document.getElementById("input3").value = "";
+            document.getElementById("input4").value = "";
+            document.getElementById("input5").value = "";
+        }
+
+        function outRegister(){
+            var div2 = document.getElementById("register-div");
+            div2.style["display"] = "none";
+
+            document.getElementById("reg").style["display"]="inline-block";
+        }
+
+        
+        function izadji(){
+            localStorage.removeItem("userdata");
+            alert("Uspešno ste se izlogovali");
+
+            var pe = document.getElementById("pe");
+            pe.style["display"] = "none";
+            var out = document.getElementById("out");
+            out.style["display"] = "none";
+
+            var inputi = document.getElementById("inputi");
+            inputi.style["display"]="inline-block";
+            
+            input1.value = "";
+            input2.value = "";
+        }
+
+    </script>
+                
+</body>
+</html>

@@ -1,0 +1,451 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    
+    <div class="wrapper">
+        <div class="header">
+            <div id="nav-lista">
+                <div class="elementi">
+                    <p><a href="index.html">POČETNA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="o-nama.html">O NAMA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="galerija.html">GALERIJA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kupovina.html">KUPOVINA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kontakt.html">KONTAKT</a></p>
+                </div>
+            </div>
+            <div id="dugmad">
+                <div id="pe"></div>
+            </div>      
+        </div>
+        <div class="content" id="dule">
+            <div id="zaTablicu"></div>
+            <div id="ulaz">
+                <p>Da biste pristupili e-kupovini, morate se ulogovati na Početnoj strani.</p>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <button id="urediTab1" class="dugmici2" onclick="urediTabelu()">Ažuriraj tabelu</button>
+            <button id="urediTab2" class="dugmici2" onclick="obrisiIzTabele()">Obriši iz tabele</button>
+            <div id="zaKupce"> 
+                    <p>VAŠA NARUDŽBINA:</p>   
+                <table id="naslovna">
+                    <thead>
+                        <td style="width: 50px">ID</td>
+                        <td style="width: 100px">NAZIV</td>
+                        <td style="width: 50px">CENA</td>
+                        <td style="width: 100px">KOLIČINA</td>
+                    </thead>
+                </table>
+                <table id="mala-tablica">   
+                </table>
+                <button id="zaPorucivanje" onclick="poruceno()">Poruči</button>
+            </div>
+        </div>
+        <div class="footer"><p>Copyright © Dušan Čanković</p></div>
+    </div>
+
+    <script>
+        
+
+        function napraviHead(){
+            var tablica = document.createElement("table");
+            tablica.id="tablica";
+            var th = document.createElement("thead");
+            th.classList.add("poredak");
+
+            var td01 = document.createElement("td");
+            var td02 = document.createElement("td");
+            var td03 = document.createElement("td");
+            var td04 = document.createElement("td");
+            var td05 = document.createElement("td");
+            var td06 = document.createElement("td");
+            var td07 = document.createElement("td");
+                
+            td01.innerHTML = "ID ARTIKLA";
+            td02.innerHTML = "NAZIV ARTIKLA";
+            td03.innerHTML = "CENA (EUR)";
+            td04.innerHTML = "OPIS ARTIKLA";
+            td05.innerHTML = "BOJA MATERIJALA";
+            td06.innerHTML = "DODATNA OPREMA";
+            td07.innerHTML = "SLIKA";
+
+            th.appendChild(td01);
+            th.appendChild(td02);
+            th.appendChild(td03);
+            th.appendChild(td04);
+            th.appendChild(td05);
+            th.appendChild(td06);
+            th.appendChild(td07);
+
+            tablica.appendChild(th);
+            zaTablicu.appendChild(tablica);
+        }
+        
+
+        function dodajArtikle(){
+            axios.get("http://localhost:3000/artikli")
+            .then((response)=> {
+                
+                napraviHead();
+
+                for(var i=0; i<response.data.data.length; i++){
+				
+				    var tablica = document.getElementById("tablica");
+				    var td1 = document.createElement("td");
+				    var td2 = document.createElement("td");
+            	    var td3 = document.createElement("td");
+				    var td4 = document.createElement("td");
+                    var td5 = document.createElement("td");
+                    var td6 = document.createElement("td");
+                    var td7 = document.createElement("td");
+					var dugmeKupi = document.createElement("button");
+                    
+
+                    td1.innerHTML = response.data.data[i].art_id;
+                    td1.id = "td1";
+                    td2.innerHTML = response.data.data[i].art_naziv;
+                    td3.innerHTML = response.data.data[i].art_cena;
+                    td4.innerHTML = response.data.data[i].art_opis;
+                    td5.innerHTML = response.data.data[i].boje_id;
+                    td6.innerHTML = response.data.data[i].art_dodatnaoprema;
+                    td7.innerHTML = response.data.data[i].art_slika;
+                    dugmeKupi.innerHTML="u korpu";  
+                    dugmeKupi.classList.add("dugmeKupi");
+                    dugmeKupi.onclick = kupiArtikle;
+
+                    var tr = document.createElement("tr");
+                        
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
+                    tr.appendChild(td5);
+                    tr.appendChild(td6);
+                    tr.appendChild(td7);
+                    tr.appendChild(dugmeKupi);
+                        
+                    tablica.appendChild(tr);   
+                }  
+            console.log(response.data);
+            })
+        }
+        dodajArtikle();
+
+
+        
+        function kupiArtikle(e){
+            var malaTablica = document.getElementById("mala-tablica");
+            var red = document.createElement("tr");
+            malaTablica.appendChild(red);   
+
+
+            var tdMala1 = document.createElement("td");
+            var tdMala2 = document.createElement("td");
+            var tdMala3 = document.createElement("td");
+            var tdMala4 = document.createElement("td");
+
+            tdMala1.style["width"] = "50px";
+            tdMala2.style["width"] = "100px";
+            tdMala3.style["width"] = "50px";
+            tdMala4.style["width"] = "100px";
+
+            var kolInput = document.createElement("input");
+            kolInput.type = "number";
+            kolInput.id = "kolInput";
+            kolInput.min = "1";
+            kolInput.defaultValue = "1";
+            kolInput.max = "10";
+            tdMala4.appendChild(kolInput);
+
+            red.appendChild(tdMala1);
+            red.appendChild(tdMala2);
+            red.appendChild(tdMala3);
+            red.appendChild(tdMala4);
+
+            var tablica = document.getElementById("tablica");
+            var totalRows = document.getElementById("tablica").rows;
+            
+            for (var i=0; i<totalRows.length; i++){
+                if(totalRows[i] == e.target.parentElement){
+                tdMala1.innerHTML = totalRows[i].cells[0].innerHTML;
+                tdMala2.innerHTML = totalRows[i].cells[1].innerHTML;
+                tdMala3.innerHTML = totalRows[i].cells[2].innerHTML;
+                }
+            } 
+
+            var zaPorucivanje = document.getElementById("zaPorucivanje");
+            zaPorucivanje.style["display"] = "inline-block"; 
+        }
+            
+        function poruceno(){
+            var malaTablica = document.getElementById("mala-tablica");
+            var redovi = document.getElementById("mala-tablica").rows;
+
+            var korpa1 = new Array;
+            var korpa2 = new Array;
+            var korpa3 = new Array;
+            
+            for (var i=0; i<redovi.length; i++){
+                korpa1.push(redovi[i].cells[0].innerHTML);
+                korpa2.push(redovi[i].cells[2].innerHTML);
+                korpa3.push(redovi[i].cells[3].children[0].value);
+            }
+
+            console.log(korpa1);
+            console.log(korpa2);
+            console.log(korpa3);
+           
+            var localdata = JSON.parse(localStorage.getItem("userdata"));
+            console.log(localdata.kor_id);
+
+            var podaciZaServer = {};
+            podaciZaServer.kor_id = localdata.kor_id;
+            podaciZaServer.artikli = [];            
+            for(var i=0; i<korpa1.length; i++){
+                for(var i=0; i<korpa2.length; i++){    
+                    for(var i=0; i<korpa3.length; i++){    
+                        var obj = {};
+                        obj.id = korpa1[i];
+                        obj.cena = korpa2[i]; 
+                        obj.kolicina = korpa3[i];
+                        podaciZaServer.artikli.push(obj);
+                }   
+            }              
+            }
+            alert("Uspešno ste naručili željeni artikal. Očekujte isporuku u narednim danima.");
+
+            console.log(podaciZaServer);
+
+            axios.post("http://localhost:3000/kupovina",{
+                narudzbine: podaciZaServer
+            });
+        };
+
+               
+        function ugao(){
+            if(localStorage != ""){
+                var localdata = JSON.parse(localStorage.getItem("userdata"));
+                var korIme = localdata.kor_ime;
+                console.log(korIme);
+
+                var pe = document.getElementById("pe");
+                pe.style["display"] = "inline-block";
+                pe.innerText = "Dobrodošli, "+korIme+"! ";
+
+                var dugmeIzadji = document.createElement("button");
+                dugmeIzadji.innerText = "Log out";
+                dugmeIzadji.classList.add("dugmici");
+                dugmeIzadji.onclick = izadji;
+                pe.appendChild(dugmeIzadji);
+                
+                var ulaz = document.getElementById("ulaz");
+                ulaz.style["display"] = "none";
+
+                var DivZaTablicu = document.getElementById("zaTablicu");
+                DivZaTablicu.style["display"] = "block"; 
+
+                pokreniDugme();
+            }
+        }
+    
+        ugao();
+
+        function izadji(){
+            localStorage.removeItem("userdata");
+            alert("Uspešno ste se izlogovali");
+
+            var pe = document.getElementById("pe");
+            pe.style["display"] = "none";
+
+            var tablica = document.getElementById("tablica");
+            tablica.style["display"] = "none"; 
+
+            var ulaz = document.getElementById("ulaz");
+            ulaz.style["display"] = "inline-block";
+        }
+    
+    function pokreniDugme(){
+        var localdata = JSON.parse(localStorage.getItem("userdata"));
+        var korLevel = localdata.kor_level;
+        console.log("Korisnicki level je "+ korLevel)
+        var urediTab1 = document.getElementById("urediTab1");
+        var urediTab2 = document.getElementById("urediTab2");
+        if(korLevel === 1){
+            urediTab1.style["display"] = "inline-block";
+            urediTab2.style["display"] = "inline-block";
+        };
+        if(korLevel === 2){
+            var zaKupce = document.getElementById("zaKupce");
+            zaKupce.style["display"] = "inline-block";
+        };
+    }
+    
+    function urediTabelu(){
+        var sidebar = document.getElementById("sidebar");
+
+        var divZaDopunu = document.createElement("div");
+        var noviArtikal = document.createElement("input");
+        var novaCena = document.createElement("input");
+        var noviOpis = document.createElement("input");
+        var novaBoja = document.createElement("input");
+        var novaOprema = document.createElement("input");
+        var novaSlika = document.createElement("input");
+        var dugmeZaDopunu = document.createElement("button");
+        var dugmeResetDopuna = document.createElement("button");
+        var dugmeIzadjiIzDopune = document.createElement("button");
+
+        novaBoja.type="number";
+        novaBoja.min = "1";
+        novaBoja.max = "6";
+
+        divZaDopunu.id = "divZaDopunu";
+        noviArtikal.id = "noviArtikal";
+        novaCena.id = "novaCena";
+        noviOpis.id = "noviOpis";
+        novaBoja.id = "novaBoja";
+        novaOprema.id = "novaOprema";
+        novaSlika.id = "novaSlika";
+        dugmeZaDopunu.id = "dugmeZaDopunu";
+        dugmeResetDopuna.id = "dugmeResetDopuna";
+        dugmeIzadjiIzDopune.id = "dugmeIzadjiIzDopune";
+
+        noviArtikal.classList.add("inputiZaDopunu");
+        novaCena.classList.add("inputiZaDopunu");
+        noviOpis.classList.add("inputiZaDopunu");
+        novaBoja.classList.add("inputiZaDopunu");
+        novaOprema.classList.add("inputiZaDopunu");
+        novaSlika.classList.add("inputiZaDopunu");
+                
+        noviArtikal.placeholder = "naziv artikla";
+        novaCena.placeholder = "cena artikla (EUR)";
+        noviOpis.placeholder = "opis artikla";
+        novaBoja.placeholder = "boja artikla";
+        novaOprema.placeholder = "dodatna oprema (da/ne)";
+        novaSlika.placeholder = "slika artikla"
+
+        dugmeZaDopunu.innerHTML = "Dodaj";
+        dugmeZaDopunu.onclick = dopuniTabelu;
+        dugmeZaDopunu.classList.add("dugmici2");
+        dugmeResetDopuna.innerHTML = "Reset";
+        dugmeResetDopuna.onclick = resetuj1;
+        dugmeResetDopuna.classList.add("dugmici2");
+        dugmeIzadjiIzDopune.innerHTML = "Izađi";
+        dugmeIzadjiIzDopune.onclick = exitDopuna;
+        dugmeIzadjiIzDopune.classList.add("dugmici2");
+
+        divZaDopunu.appendChild(noviArtikal);
+        divZaDopunu.appendChild(novaCena);
+        divZaDopunu.appendChild(noviOpis);
+        divZaDopunu.appendChild(novaBoja);
+        divZaDopunu.appendChild(novaOprema);
+        divZaDopunu.appendChild(novaSlika);
+        divZaDopunu.appendChild(dugmeZaDopunu);
+        divZaDopunu.appendChild(dugmeResetDopuna);
+        divZaDopunu.appendChild(dugmeIzadjiIzDopune);
+
+        sidebar.appendChild(divZaDopunu);
+
+        var urediTab1 = document.getElementById("urediTab1");
+        urediTab1.style["display"] = "none"; 
+        }
+
+    function dopuniTabelu(){
+        var imeArtikla = document.getElementById("noviArtikal").value;
+        var cenaArtikla = document.getElementById("novaCena").value;
+        var opisArtikla = document.getElementById("noviOpis").value;
+        var bojaArtikla = document.getElementById("novaBoja").value;
+        var dodatnaOprema = document.getElementById("novaOprema").value;
+        var slikaArtikla = document.getElementById("novaSlika").value;
+
+        axios.post("http://localhost:3000/dopunaTabele",
+        {ime: imeArtikla, cena: cenaArtikla, opis: opisArtikla, boja: bojaArtikla, oprema: dodatnaOprema, slika: slikaArtikla}).
+        then(function(response){
+            console.log(response.data);
+        });
+
+        var divZaDopunu = document.getElementById("divZaDopunu");
+        divZaDopunu.style["display"] = "none";
+        var urediTab1 = document.getElementById("urediTab1");
+        urediTab1.style["display"] = "none"; 
+
+        alert("Tabela je ažurirana");
+    };
+   
+    function resetuj1(){
+        document.getElementById("noviArtikal").value = "";
+        document.getElementById("novaCena").value = "";
+        document.getElementById("noviOpis").value = "";
+        document.getElementById("novaBoja").value = "";
+        document.getElementById("novaOprema").value = "";
+        document.getElementById("novaSlika").value = "";
+    }
+
+    function exitDopuna(){
+        var divZaDopunu = document.getElementById("divZaDopunu");
+        divZaDopunu.style["display"] = "none";
+        var urediTab1 = document.getElementById("urediTab1");
+        urediTab1.style["display"] = "inline-block"; 
+    };
+
+    function obrisiIzTabele(){
+        var sidebar = document.getElementById("sidebar");
+
+        var divZaBrisanje = document.createElement("div");
+        var inputZaBrisanje = document.createElement("input");
+        var dugmeZaBrisanje = document.createElement("button");
+
+        divZaBrisanje.id = "divZaBrisanje";
+        inputZaBrisanje.id = "inputZaBrisanje";
+        dugmeZaBrisanje.id = "dugmeZaBrisanje";
+        dugmeZaBrisanje.classList.add("dugmici");
+
+        inputZaBrisanje.classList.add("inputiZaDopunu");
+        inputZaBrisanje.placeholder = "ID artikla";
+        dugmeZaBrisanje.innerHTML = "Obriši artikal";
+        dugmeZaBrisanje.onclick = obrisiArtikal;
+
+        divZaBrisanje.appendChild(inputZaBrisanje);
+        divZaBrisanje.appendChild(dugmeZaBrisanje);
+        sidebar.appendChild(divZaBrisanje);
+
+        var urediTab2 = document.getElementById("urediTab2");
+        urediTab2.style["display"] = "none";
+    };
+
+    function obrisiArtikal(){
+        var oznakaArtikla = document.getElementById("inputZaBrisanje").value;
+        if(oznakaArtikla == ""){
+            alert("Unesite id artikla")
+        }
+        else{
+            axios.post("http://localhost:3000/brisanjeArtikla",
+                {oznaka: oznakaArtikla}).then (function(response){
+                    console.log(response.data)
+                });
+            
+            alert("Artikal je obrisan.");
+            divZaBrisanje.style["display"] = "none";
+            urediTab2.style["display"] = "inline-block";
+            }
+    };
+
+    </script>
+</body>
+</html>

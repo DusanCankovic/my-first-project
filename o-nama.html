@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    
+    <div class="wrapper">
+        <div class="header">
+            <div id="nav-lista">
+                <div class="elementi">
+                    <p><a href="index.html">POČETNA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="o-nama.html">O NAMA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="galerija.html">GALERIJA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kupovina.html">KUPOVINA</a></p>
+                </div>
+                <div class="elementi">
+                    <p><a href="kontakt.html">KONTAKT</a></p>
+                </div>
+            </div>
+            <div id="dugmad">
+                <div id="pe"></div>
+            </div>
+        </div>
+        <div class="content" id="dule">
+            <div id="drugiIspis">
+                <p>Naša firma se uspešno od 2009. godine bavi izradom nameštaja od drvenih paleta. Pažljivo odabrane, neoštećene Euro palete svojim radom, kreativnošću i istrajnošću pretvaramo u omiljena mesta za druženje i odmor u dnevnoj sobi, terasi ili dvorištu. Široki asortiman ugaonih garnitura, fotelja, stolova i drugih komada nameštaja vrhunskog kvaliteta, različitih boja i dimenzija, potvrđuju naše ciljeve.</p>
+                <p>Pridružite se našim zadovoljnim klijentima i unesite iznenađujuće čari paleta u Vaš dom.</p>
+
+                <div id="druga"><img src="images/palete8.jpg" alt druga></div>
+            </div>
+        </div>
+        <div class="sidebar" id="side">
+            <div id="treca"><img src="images/logo4.png" alt slika></div>
+        </div>
+        <div class="footer"><p>Copyright © Dušan Čanković</p></div>
+    </div>
+
+    <script>
+        function ugao(){
+            if(localStorage != ""){
+                var localdata = JSON.parse(localStorage.getItem("userdata"));
+                var korIme = localdata.kor_ime;
+                console.log(korIme);
+
+                var pe = document.getElementById("pe");
+                pe.style["display"] = "inline-block";
+                pe.innerText = "Dobrodošli, "+korIme+"! ";
+
+                var dugmeIzadji = document.createElement("button");
+                dugmeIzadji.innerText = "Log out";
+                dugmeIzadji.classList.add("dugmici");
+                dugmeIzadji.onclick = izadji;
+                pe.appendChild(dugmeIzadji);
+            }
+        }
+    
+        ugao();
+
+        function izadji(){
+            localStorage.removeItem("userdata");
+            alert("Uspešno ste se izlogovali");
+
+            var pe = document.getElementById("pe");
+            pe.style["display"] = "none";
+        }
+    </script>
+</body>
+</html>
